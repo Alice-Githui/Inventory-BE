@@ -1,1 +1,7 @@
 virtual/
+**/migrations/**
+_migrations/*
+migrations/
+/migrations
+/migrations
+migrations/
