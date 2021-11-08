@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'inventory',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -113,6 +114,9 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+# create user for Abstract User
+AUTH_USER_MODEL='inventory.User'
 
 
 # Static files (CSS, JavaScript, Images)
