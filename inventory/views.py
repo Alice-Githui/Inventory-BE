@@ -29,3 +29,14 @@ class AddStoreInventory(generics.CreateAPIView):
         else:
             return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class GetAllStoreInventory(APIView):
+    serializer_class=AddNewInventory
+
+    def get(self, request, format=None):
+        store_inventory=Inventory.objects.all()
+        serializers=AddNewInventory(store_inventory, many=True)
+        print(store_inventory)
+        return Response(serializers.data)
+
+        
+
