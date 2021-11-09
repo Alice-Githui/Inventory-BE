@@ -5,3 +5,8 @@ class AddNewInventory(serializers.ModelSerializer):
     class Meta:
         model=Inventory
         fields="__all__"
+
+class UpdateStoreInventory(serializers.ModelSerializer):
+    class Meta:
+        model=Inventory
+        fields = ["quantity"]

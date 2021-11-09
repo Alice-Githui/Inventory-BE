@@ -4,6 +4,7 @@ from .views import *
 
 urlpatterns=[
     path("get-all-store_inventory/", GetAllStoreInventory.as_view(), name="get-all-storeinventory"),
-    path("add-store-inventory/", AddStoreInventory.as_view(), name="add-store-inventory"),
+    path("add-store-inventory/<int:pk>/", AddStoreInventory.as_view(), name="add-store-inventory"),
+    path("update-store-inventory/<int:pk>/", UpdateStoreInventoryView.as_view(), name="update-store-inventory"),
 
 ]
