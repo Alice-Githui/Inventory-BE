@@ -14,8 +14,8 @@ class User(AbstractUser):
 class Inventory(models.Model):
     name=models.CharField(max_length=500)
     quantity=models.IntegerField(default=0)
-    buying_price=models.IntegerField()
-    selling_price=models.IntegerField()
+    buying_price=models.IntegerField(null=True)
+    selling_price=models.IntegerField(null=True)
     description=models.CharField(max_length=1000)
     date=models.DateTimeField(auto_now_add=True, null=True)
 

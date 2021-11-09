@@ -10,3 +10,8 @@ class UpdateStoreInventory(serializers.ModelSerializer):
     class Meta:
         model=Inventory
         fields = ["quantity"]
+
+class SellStoreInventory(serializers.ModelSerializer):
+    class Meta:
+        model=Inventory
+        fields=["quantity"]
