@@ -6,6 +6,7 @@ from rest_framework import generics
 from rest_framework import serializers,status
 from django.core.checks import messages
 from .serializers import *
+from django.http import Http404
 
 # Create your views here.
 class AddStoreInventory(generics.CreateAPIView):
@@ -126,6 +127,34 @@ class SellStoreInventoryView(generics.CreateAPIView):
             return Response(response, status=status.HTTP_200_OK)
         else:
             return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class DeleteStoreInventoryView(APIView):
+    def get_store_item(self, pk):
+        try:
+            return Inventory.objects.get(pk=pk)
+        except:
+            return Http404
+
+    def get(self, request, pk, format=None):
+        store_item=self.get_store_item(pk)
+        serializers=AddNewInventory(store_item)
+        return Response(serializers.data)
+
+    #   # put request to update an existing application
+    # def put(self, request, pk, format=None):
+    #     application=self.get_application(pk=pk)
+    #     serializers=ApplicationSerializer(application, request.data)
+    #     if serializers.is_valid(raise_exception=True):
+    #         serializers.save()
+    #         return Response(serializers.data)
+    #     else:
+    #         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        store_item=self.get_store_item(pk)
+        store_item.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
         
 
