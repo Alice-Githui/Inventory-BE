@@ -5,3 +5,7 @@ migrations/
 /migrations
 /migrations
 migrations/
+inventory.http
+__pycache__
+
+

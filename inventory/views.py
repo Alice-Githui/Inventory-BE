@@ -9,6 +9,29 @@ from .serializers import *
 from django.http import Http404
 
 # Create your views here.
+
+class RegisterNewUserView(generics.CreateAPIView):
+    serializer_class=RegisterNewUserSerializer
+
+    def post(self, request):
+        serializer=self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+
+            user_data=serializer.data
+
+            response={
+                "data":{
+                    "user":dict(user_data),
+                    "status":"Success",
+                    "message":"New User registered successfully"
+                }
+            }
+            return Response(response, status=status.HTTP_200_OK)
+        else:
+            return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class AddStoreInventory(generics.CreateAPIView):
     serializer_class=AddNewInventory
 
@@ -28,7 +51,7 @@ class AddStoreInventory(generics.CreateAPIView):
         # item.save()
         
         if serializer.is_valid(raise_exception=True):
-            serializer.save(item=item)
+            serializer.save()
 
             inventory_data=serializer.data
 
@@ -56,7 +79,7 @@ class GetAllStoreInventory(APIView):
 class UpdateStoreInventoryView(generics.CreateAPIView):
     serializer_class=UpdateStoreInventory
 
-    def post(self, request, *args, **kwargs):
+    def patch(self, request, *args, **kwargs):
         item_id=self.kwargs["pk"]
         print(item_id)
 
@@ -94,7 +117,7 @@ class UpdateStoreInventoryView(generics.CreateAPIView):
 class SellStoreInventoryView(generics.CreateAPIView):
     serializer_class=SellStoreInventory
 
-    def post(self, request, *args, **kwargs):
+    def patch(self, request, *args, **kwargs):
         item_id=self.kwargs["pk"]
         print(item_id)
 
