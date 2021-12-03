@@ -79,6 +79,17 @@ class GetAllStoreInventory(APIView):
 class UpdateStoreInventoryView(generics.CreateAPIView):
     serializer_class=UpdateStoreInventory
 
+    def get_store_item(self, pk):
+        try:
+            return Inventory.objects.get(pk=pk)
+        except:
+            return Http404
+
+    def get(self, request, pk, format=None):
+        store_item=self.get_store_item(pk)
+        serializers=AddNewInventory(store_item)
+        return Response(serializers.data)
+
     def patch(self, request, *args, **kwargs):
         item_id=self.kwargs["pk"]
         print(item_id)
