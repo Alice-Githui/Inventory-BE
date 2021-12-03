@@ -76,9 +76,8 @@ class GetAllStoreInventory(APIView):
         return Response(serializers.data)
 
 
-class UpdateStoreInventoryView(generics.CreateAPIView):
-    serializer_class=UpdateStoreInventory
-
+class UpdateStoreInventoryView(APIView):
+    
     def get_store_item(self, pk):
         try:
             return Inventory.objects.get(pk=pk)
@@ -94,8 +93,6 @@ class UpdateStoreInventoryView(generics.CreateAPIView):
         item_id=self.kwargs["pk"]
         print(item_id)
 
-        serializer=self.serializer_class(data=request.data)
-
         item=Inventory.objects.get(id=item_id)
         print(item.quantity)
 
@@ -110,11 +107,17 @@ class UpdateStoreInventoryView(generics.CreateAPIView):
         print(item.quantity)
         item.save()
 
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
+        serializers=UpdateStoreInventory(item, request.data, partial=True)
+        print(serializers)
+
+        if serializers.is_valid(raise_exception=True):
+            serializers.save(quantity = new_total_quantity)
+
+            product_data = serializers.data
 
             response = {
                 "data":{
+                    "quantity":dict(product_data),
                     "status":"Success", 
                     "message":"Inventory data updated successfully"
                 }
