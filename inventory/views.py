@@ -36,8 +36,6 @@ class AddStoreInventory(generics.CreateAPIView):
     serializer_class=AddNewInventory
 
     def post(self, request, *args, **kwargs):
-        # item_id=self.kwargs["pk"]
-        # print(item_id)
 
         serializer=self.serializer_class(data=request.data)
 
@@ -144,15 +142,18 @@ class SellStoreInventoryView(generics.CreateAPIView):
         new_added_quantity=request.data["quantity"]
         print(new_added_quantity)
 
-        new_total_quantity = int(item.quantity) - int(new_added_quantity)
-        print(new_total_quantity)
+        if item_quantity == 0:
+            return Response("You do not have enough items in stock")
+        else:
+            new_total_quantity = int(item.quantity) - int(new_added_quantity)
+            print(new_total_quantity)
 
-        item.quantity=new_total_quantity
-        print(item.quantity)
-        item.save()
+            item.quantity=new_total_quantity
+            print(item.quantity)
+            item.save()
 
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            serializer.save(item_quantity = new_total_quantity)
 
             response = {
                 "data":{
