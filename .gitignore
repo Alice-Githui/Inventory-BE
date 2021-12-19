@@ -8,4 +8,7 @@ migrations/
 inventory.http
 __pycache__
 
+.env
+
+
 
